@@ -1,0 +1,23 @@
+version: 2.1
+orbs:
+  # Circle Node orb makes it simple to cache dependencies
+  # https://circleci.com/orbs/registry/orb/circleci/node
+  node: circleci/node@1.1
+jobs:
+  build:
+    executor:
+      name: node/default
+      tag: '12'
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run:
+                name: install dependencies
+                command: npm ci
+      - run:
+          name: run tests 
+          command: npm run e2e
+      - run:
+          name: NPM publish 
+          command: npm run semantic-release
