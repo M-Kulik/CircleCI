@@ -1,23 +1,45 @@
-version: 2.1
-orbs:
-  # Circle Node orb makes it simple to cache dependencies
-  # https://circleci.com/orbs/registry/orb/circleci/node
-  node: circleci/node@1.1
-jobs:
-  build:
-    executor:
-      name: node/default
-      tag: '12'
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run:
-                name: install dependencies
-                command: npm ci
-      - run:
-          name: run tests 
-          command: npm run e2e
-      - run:
-          name: NPM publish 
-          command: npm run semantic-release
+# version: 2.1
+# orbs:
+#   # Circle Node orb makes it simple to cache dependencies
+#   # https://circleci.com/orbs/registry/orb/circleci/node
+#   node: circleci/node@1.1
+# jobs:
+#   build:
+#     executor:
+#       name: node/default
+#       tag: '12'
+#     steps:
+#       - checkout
+#       - node/with-cache:
+#           steps:
+#             - run:
+#                 name: install dependencies
+#                 command: npm ci
+#       - run:
+#           name: run tests 
+#           command: npm run e2e
+#       - run:
+#           name: NPM publish 
+#           command: npm run semantic-release
+          
+#            steps:
+#       - restore_cache:
+#           keys:
+#             # Find a cache corresponding to this specific package-lock.json checksum
+#             # when this file is changed, this key will fail
+#             - v1-npm-deps-{{ checksum "package-lock.json" }}
+#             # Find the most recently generated cache used from any branch
+#             - v1-npm-deps-
+
+
+# steps:
+#   - restore_cache:
+#       keys:
+#         # when lock file changes, use increasingly general patterns to restore cache
+#         - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+#         - node-v1-{{ .Branch }}-
+#         - node-v1-
+#   - save_cache:
+#       paths:
+#         - ~/usr/local/lib/node_modules  # location depends on npm version
+#       key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
