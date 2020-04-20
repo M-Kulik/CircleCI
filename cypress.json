@@ -1,1 +1,4 @@
-{}
+{
+	"BaseUrl": "http://local-st.pl",
+	"chromeWebSecurity": false
+}
