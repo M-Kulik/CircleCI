@@ -14,7 +14,7 @@ workflows:
       - cypress/run:
           name: 'cypress test'   
           # use executor with Chrome installed
-          executor: cypress/browsers-chrome78
+          executor: cypress/browsers-chrome76
           # use browser "chrome" for running tests
           browser: chrome
 #           start: 'npm run start:ci'
