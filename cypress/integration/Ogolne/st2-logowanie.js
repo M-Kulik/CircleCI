@@ -16,15 +16,15 @@ describe('Logowanie do konta', () => {
          cy.url().should('contains', 'users/login')
     })
 
+
     // Uzytkownik znajduje sie pod odpowiednim adresem
     it('1. Uzytkownik jest na stronie logowania', () => {
-         cy.url().should('contains', 'users/login')
-         cy.contains('Logowanie')
+        cy.url().should('contains', 'users/login')
+        cy.contains('Logowanie')
         .get('#LoginForm_email')
         .get('#LoginForm_password')
         .get('.col-xs-12 > .btn') 
         cy.get('.col-xs-12 > .btn').should('be.enabled')
-
     })
     
     // Uzytkownik ma mozliwosc odzyskac haslo
@@ -34,7 +34,6 @@ describe('Logowanie do konta', () => {
         cy.contains('Resetowanie hasła')
         .get('#Users_resethasloemail')
         cy.get('.col-xs-12 > .btn').should('be.enabled')
-
     })       
     
     // Uzytkownik moze zalogowac sie z poprawnie podanymi danymi
@@ -62,35 +61,4 @@ describe('Logowanie do konta', () => {
         .get('.col-xs-12 > .btn').click()
         cy.contains('Nieprawidłowa nazwa użytkownika lub hasło')
     })
-
-    // System blokuje dostep przy zbyt duzej ilosci blednych prob
-    it('7. Blokowanie konta przy blednym hasle', () => {
-        cy.get('#LoginForm_email').type('info@salestracker24.com')
-        .get('#LoginForm_password').type('blednehaslo')
-        // wymuszenie zablokowania
-        cy.get('.col-xs-12 > .btn').click({ force: true })
-        cy.get('.col-xs-12 > .btn').click({ force: true })
-        cy.get('.col-xs-12 > .btn').click({ force: true })
-        cy.get('.col-xs-12 > .btn').click({ force: true })
-        cy.get('.col-xs-12 > .btn').click({ force: true })
-        // assert przycisk zaloguj zablokowany
-        cy.get('.col-xs-12 > .btn').should('be.disabled')
-        // assert informacja o zablokowaniu konta
-        cy.contains('li', 'Przekroczono liczbę nieudanych prób logowania. Konto zostało zablokowane.')
-
-    })
-
-    // System nie pozwala sie zalogowac przy zablokowanym koncie z poprawnymi danymi
-    it('8. Konto zablokowane', () => { 
-        // assert przycisk dostepny  
-        cy.get('.col-xs-12 > .btn').should('be.enabled')
-        cy.get('#LoginForm_email').type('info@salestracker24.com')
-        .get('#LoginForm_password').type('Test1!')
-        cy.get('.col-xs-12 > .btn').click()
-        // assert przycisk zablokowany
-        cy.get('.col-xs-12 > .btn').should('be.disabled')
-        // assert informacja o zablokowaniu konta
-        cy.contains('li', 'Przekroczono liczbę nieudanych prób logowania. Konto zostało zablokowane.')
-    })
-   
 })
