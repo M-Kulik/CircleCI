@@ -10,11 +10,29 @@ workflows:
     jobs:
       # "cypress" is the name of the imported orb
       # "run" is the name of the job defined in Cypress orb
-      - cypress/run
+#       - cypress/run
+      cypress-run:
+    runs-on: ubuntu-16.04
+    # let's make sure our tests pass on Chrome browser
+    name: E2E on Chrome
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v1
+        with:
+          browser: chrome
       
 
 
-
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-16.04
+#     # let's make sure our tests pass on Chrome browser
+#     name: E2E on Chrome
+#     steps:
+#       - uses: actions/checkout@v1
+#       - uses: cypress-io/github-action@v1
+#         with:
+#           browser: chrome
 
 
 # version: 2.1
