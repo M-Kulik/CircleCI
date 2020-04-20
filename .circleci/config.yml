@@ -12,9 +12,9 @@ workflows:
       # "run" is the name of the job defined in Cypress orb
 #       - cypress/run
       - cypress/run:
-          name: '2 machines using Chrome'   
+          name: 'cypress test'   
           # use executor with Chrome installed
-          executor: cypress/browsers-chrome76
+          executor: cypress/browsers-chrome80
           # use browser "chrome" for running tests
           browser: chrome
           start: 'npm run start:ci'
