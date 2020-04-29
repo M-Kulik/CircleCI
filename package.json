@@ -5,7 +5,6 @@
   "main": "st1-zmiana_hasla_bokowanie_konta.js",
   "scripts": {
     "test": "npm start & cypress run",
-    "test:ci": "run-p --race start:ci e2e",
   },
   "author": "",
   "license": "ISC",
