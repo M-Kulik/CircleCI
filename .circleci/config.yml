@@ -20,26 +20,16 @@ executors:
 
 jobs:
   win-test:
-    working_directory: /tmp
+    working_directory: ~/app
     executor:
       name: win/vs2019
       shell: bash.exe
     steps:
       - checkout
 
-      - restore_cache:
-          key: dependencies-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-
       - run: npm ci
       - run: npm run cy:verify
       - run: npm run cy:info
-
-      - save_cache:
-          key: dependencies-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            # could not use environment variables for some reason
-            - C:\Users\circleci\AppData\Local\Cypress\Cache
-            - C:\Users\circleci\AppData\Roaming\npm-cache
 
       # if you want to test execa's behavior on Windows
       # - run: node ./scripts/test-execa
