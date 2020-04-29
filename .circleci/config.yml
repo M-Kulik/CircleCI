@@ -70,10 +70,6 @@ jobs:
           at: ~/
       - run: npm run semantic-release
 
-workflows:
-  win-build:
-    jobs:
-      - win-test
 
   
 
