@@ -1,88 +1,18 @@
-
-# # to use orbs, must use version >= 2.1
-# version: 2.1
-# orbs:
-#   # import Cypress orb by specifying an exact version x.y.z
-#   # or the latest version 1.x.x using "@1" syntax
-#   cypress: cypress-io/cypress@1
-# workflows:
-#   build:
-#     jobs:
-#       # "cypress" is the name of the imported orb
-#       # "run" is the name of the job defined in Cypress orb
-# #       - cypress/run
-#       - cypress/run:
-#           name: 'cypress test'   
-#           # use executor with Chrome installed
-#           executor: cypress/browsers-chrome76
-#           # use browser "chrome" for running tests
-#           browser: chrome
-# #           start: 'npm run start:ci'
-
 version: 2.1
 orbs:
   cypress: cypress-io/cypress@1.0.0
-workflows:
-  build:
-    jobs:
-      - cypress/run:
-          executor: cypress/base-8
-          start: 'npm run start:ci' # start server before running tests
+jobs:
+  win-test:
+    working_directory: ~/app
+    executor:
+      name: win/vs2019
+      shell: bash.exe
+    steps:
+      - checkout
 
-# jobs:
-#   cypress-run:
-#     runs-on: ubuntu-16.04
-#     # let's make sure our tests pass on Chrome browser
-#     name: E2E on Chrome
-#     steps:
-#       - uses: actions/checkout@v1
-#       - uses: cypress-io/github-action@v1
-#         with:
-#           browser: chrome
+      - restore_cache:
+          key: dependencies-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
 
-
-# version: 2.1
-# orbs:
-#   # Circle Node orb makes it simple to cache dependencies
-#   # https://circleci.com/orbs/registry/orb/circleci/node
-#   node: circleci/node@1.1
-# jobs:
-#   build:
-#     executor:
-#       name: node/default
-#       tag: '12'
-#     steps:
-#       - checkout
-#       - node/with-cache:
-#           steps:
-#             - run:
-#                 name: install dependencies
-#                 command: npm ci
-#       - run:
-#           name: run tests 
-#           command: npm run e2e
-#       - run:
-#           name: NPM publish 
-#           command: npm run semantic-release
-          
-#            steps:
-#       - restore_cache:
-#           keys:
-#             # Find a cache corresponding to this specific package-lock.json checksum
-#             # when this file is changed, this key will fail
-#             - v1-npm-deps-{{ checksum "package-lock.json" }}
-#             # Find the most recently generated cache used from any branch
-#             - v1-npm-deps-
-
-
-# steps:
-#   - restore_cache:
-#       keys:
-#         # when lock file changes, use increasingly general patterns to restore cache
-#         - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-#         - node-v1-{{ .Branch }}-
-#         - node-v1-
-#   - save_cache:
-#       paths:
-#         - ~/usr/local/lib/node_modules  # location depends on npm version
-#       key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run: npm run cy:verify
+      - run: npm run cy:info
