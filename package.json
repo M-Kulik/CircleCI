@@ -2,7 +2,7 @@
   "name": "stautomation",
   "version": "1.0.0",
   "description": "",
-  "main": "st1-zmiana_hasla_bokowanie_konta.js",
+  "main": "index.js",
   "scripts": {
     "test": "npm start & cypress run",
   },
