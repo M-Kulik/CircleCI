@@ -16,3 +16,8 @@ jobs:
       - run: npm ci
       - run: npm run cy:verify
       - run: npm run cy:info
+      
+workflows:
+  win-build:
+    jobs:
+      - win-test
